@@ -1,0 +1,17 @@
+# Data files — never commit raw data to GitHub
+data/
+logs/
+*.csv
+*.zip
+
+# dbt files
+target/
+dbt_packages/
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Mac
+.DS_Store
