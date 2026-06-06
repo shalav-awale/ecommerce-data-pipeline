@@ -55,6 +55,13 @@ SOURCE_FILES = {
 
 
 def validate_dataframe(df, filename, key_columns):
+    """
+    Validates a DataFrame by checking:
+    - Number of rows
+    - Missing columns
+    - Null rate for each column
+    Returns True if all checks pass, False otherwise
+    """
     passed = True
 
     if len(df) == 0:
@@ -161,3 +168,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
