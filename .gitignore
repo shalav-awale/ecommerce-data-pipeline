@@ -1,4 +1,18 @@
+# Python virtual environment
+.venv/
+__pycache__/
+*.pyc
 
+# dbt
 target/
 dbt_packages/
 logs/
+
+# Data files - raw data should not be in git
+data/
+
+# Environment variables
+.env
+
+# Mac
+.DS_Store
