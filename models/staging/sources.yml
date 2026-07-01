@@ -1,0 +1,27 @@
+#I need to create a sources.yml file for the staging schema.
+#The raw tables live in postgres in schema ecommerce.
+#There are 9 raw tables.
+
+sources:
+  - name: raw
+    schema: ecommerce
+    description: "Raw Olist e-commerce data loaded from S3, untransformed"
+    tables:
+      - name: raw_customers
+        description: "Customer records with unique customer and zip code identifiers"
+      - name: raw_geolocation
+        description: "Brazilian zip code prefixes mapped to lat/long coordinates"
+      - name: raw_order_items
+        description: "Line items within each order — one row per product per order"
+      - name: raw_order_payments
+        description: "Payment transactions associated with each order"
+      - name: raw_order_reviews
+        description: "Customer reviews and scores submitted for orders"
+      - name: raw_orders
+        description: "Core order records with status and timestamp fields"
+      - name: raw_product_category_name_translation
+        description: "Lookup table translating Portuguese category names to English"
+      - name: raw_products
+        description: "Product catalog with category and dimension attributes"
+      - name: raw_sellers
+        description: "Seller records with location information"
