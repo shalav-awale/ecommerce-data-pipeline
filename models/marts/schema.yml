@@ -1,0 +1,112 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Customer dimension table. Grain: one row per customer_id."
+    columns:
+      - name: customer_key
+        description: "Surrogate key generated from customer_id"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Natural key from source system"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_state
+        data_tests:
+          - not_null
+
+  - name: dim_products
+    description: "Product dimension table. Grain: one row per product_id."
+    columns:
+      - name: product_key
+        data_tests:
+          - unique
+          - not_null
+      - name: product_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_sellers
+    description: "Seller dimension table. Grain: one row per seller_id."
+    columns:
+      - name: seller_key
+        data_tests:
+          - unique
+          - not_null
+      - name: seller_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_dates
+    description: "Date dimension. Grain: one row per calendar date."
+    columns:
+      - name: full_date
+        data_tests:
+          - unique
+          - not_null
+      - name: year
+        data_tests:
+          - not_null
+      - name: is_weekend
+        data_tests:
+          - not_null
+
+  - name: fct_orders
+    description: "Orders fact table. Grain: one row per order_id."
+    columns:
+      - name: order_key
+        data_tests:
+          - unique
+          - not_null
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_key
+      - name: order_date
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: full_date
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              values: ['delivered', 'shipped', 'canceled', 'unavailable',
+                       'processing', 'invoiced', 'created', 'approved']
+
+  - name: fct_order_items
+    description: "Order items fact table. Grain: one row per order_id + order_item_id."
+    columns:
+      - name: order_item_key
+        data_tests:
+          - unique
+          - not_null
+      - name: product_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_key
+      - name: seller_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sellers')
+              field: seller_key
+      - name: price
+        data_tests:
+          - not_null
+      - name: total_item_revenue
+        data_tests:
+          - not_null
