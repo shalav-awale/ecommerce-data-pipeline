@@ -80,10 +80,9 @@ def clean_dataframe(df, filename):
         )
 
         # Strip whitespace from all string columns
-        # dtype == "object" is pandas term for string columns
-        df = df.apply(
-            lambda col: col.str.strip() if col.dtype == "object" else col
-        )
+        # dtype == "str" is pandas term for string columns
+        for col in df.select_dtypes(include=["str"]).columns:
+            df[col] = df[col].str.strip()
 
         # Add metadata columns for lineage tracking
         # tells you exactly when and from where data was loaded
